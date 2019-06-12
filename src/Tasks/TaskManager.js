@@ -16,7 +16,8 @@ class TaskManager extends React.Component {
     getTasks() {                
         unirest.get("http://localhost:8000/todo")
         .end( (response) => {                        
-            var responseData = response.body;                
+            var responseData = response.body;   
+            console.log(responseData);             
             this.setState({
                 tasks: responseData                
             });            
@@ -27,7 +28,7 @@ class TaskManager extends React.Component {
         let tasks = '';
         if(this.state.tasks !=null) {
             tasks = this.state.tasks.map( (value,index) => {                
-                return <Task key={index} deleteTask={this.deleteTask} id={value.id} name={value.name} done={value.done==="1"}/>;
+                return <Task key={index} deleteTask={this.deleteTask} id={value.id} name={value.name} done={value.done}/>;
             });
         }
         return (

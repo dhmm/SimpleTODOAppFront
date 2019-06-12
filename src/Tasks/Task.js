@@ -79,18 +79,42 @@ class Task extends React.Component {
         }) 
       }
     }
+    complete() {
+      unirest.post("http://localhost:8000/todo/complete")            
+      .send(JSON.stringify({id: this.state.id}))
+      .end( (response) => { 
+        if(response.status == 201)
+        {  
+          this.setState({            
+            done :response.body.done 
+          });                        
+        }
+      }) 
+    }
+    uncomplete() {
+      unirest.post("http://localhost:8000/todo/uncomplete")            
+      .send(JSON.stringify({id: this.state.id}))
+      .end( (response) => { 
+        if(response.status == 201)
+        {  
+          this.setState({            
+            done :response.body.done 
+          });                        
+        }
+      }) 
+    }
     render() {
         let status = '';        
         if(this.state.done === true) {
-            status= <span className="badge badge-success">Succesfull</span>;
+            status= <span className="badge badge-success">Completed</span>;
         } else {
             status= <span className="badge badge-secondary">Not ready</span>;
         }
         let action = '';
         if(this.state.done === true) {
-            action= <button className="btn btn-sm btn-secondary">Uncomplete</button>;
+            action= <button className="btn btn-sm btn-secondary" onClick={evt=>{this.uncomplete()}}>Uncomplete</button>;
         } else {
-            action= <button className="btn btn-sm btn-success">Complete</button>;
+            action= <button className="btn btn-sm btn-success"  onClick={evt=>{this.complete()}}>Complete</button>;
         }
 
         let edit = '';
