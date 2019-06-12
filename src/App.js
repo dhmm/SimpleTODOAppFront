@@ -6,22 +6,19 @@ import './App.css';
 class App extends Component {
   constructor() {  
     super();    
-    this.state = {
-      refreshList: {}
-    }
+    this.managerComponent = React.createRef();  
+    console.log(this.managerComponent);  
   }
 
-  doRefresh = (evt) => {
-    this.setState({
-      refreshList: evt
-    }) ; 
+  reloadTasks = () => {
+    this.managerComponent.current.getTasks();
   }
 
   render () {
     return(
     <div className="App">
-      <TaskCreator doRefresh={this.doRefresh}/>      
-      <TaskManager refresh={this.state.refreshList} />  
+      <TaskCreator reloadTasks={this.reloadTasks}/>      
+      <TaskManager ref={this.managerComponent}  />  
     </div>);
   };
 }

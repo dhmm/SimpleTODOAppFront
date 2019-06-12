@@ -16,7 +16,7 @@ class TaskCreator extends React.Component {
         .send(JSON.stringify({name: this.state.name, done: this.state.done.toString()}))
         .end( (response) => {                      
             this.setState({ name : '' , done : false});
-            this.props.doRefresh(); 
+            this.props.reloadTasks(); 
         })    
         
     }

@@ -12,13 +12,13 @@ class Task extends React.Component {
 
     render() {
         let status = '';        
-        if(this.state.done == true) {
+        if(this.state.done === true) {
             status= <span className="badge badge-success">Succesfull</span>;
         } else {
             status= <span className="badge badge-secondary">Not ready</span>;
         }
         let action = '';
-        if(this.state.done == true) {
+        if(this.state.done === true) {
             action= <button className="btn btn-sm btn-secondary">Uncomplete</button>;
         } else {
             action= <button className="btn btn-sm btn-success">Complete</button>;
