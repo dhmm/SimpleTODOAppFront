@@ -19,8 +19,7 @@ class TaskManager extends React.Component {
             var responseData = response.body;                
             this.setState({
                 tasks: responseData                
-            });
-            console.log(this.state.tasks);
+            });            
         })
     }
     
@@ -28,7 +27,7 @@ class TaskManager extends React.Component {
         let tasks = '';
         if(this.state.tasks !=null) {
             tasks = this.state.tasks.map( (value,index) => {                
-                return <Task name={value.name} done={value.done==="1"}/>;
+                return <Task key={index} name={value.name} done={value.done==="1"}/>;
             });
         }
         return (

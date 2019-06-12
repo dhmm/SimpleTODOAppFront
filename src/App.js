@@ -6,8 +6,7 @@ import './App.css';
 class App extends Component {
   constructor() {  
     super();    
-    this.managerComponent = React.createRef();  
-    console.log(this.managerComponent);  
+    this.managerComponent = React.createRef();      
   }
 
   reloadTasks = () => {
