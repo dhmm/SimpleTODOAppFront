@@ -13,19 +13,19 @@ class Task extends React.Component {
 
             editVisible :false ,
 
-            newName : ''
+            newName : '' ,
+
+            deleted : false
         }
     }
     changeEditVisibility (visibility) {      
       if(visibility === true) {        
-        this.setState
-        ({
+        this.setState({
           newName : this.state.name ,
           editVisible: visibility
         });        
       } else {
-        this.setState
-        ({
+        this.setState({
           newName : '',
           editVisible: visibility
         });
@@ -54,6 +54,31 @@ class Task extends React.Component {
           this.changeEditVisibility(false);       
       }) 
     }
+    deleteTask() {
+      if(window.confirm("Are you sure")) {
+        unirest.delete("http://localhost:8000/todo")            
+        .send(JSON.stringify({id: this.state.id}))
+        .end( (response) => { 
+          if(response.status == 201)
+          {
+            if(response.body === "deleted") {
+              this.setState({
+                id : null,
+                previousName : null,
+                name : null,             
+                done : null,
+    
+                editVisible :false ,
+    
+                newName : null ,
+    
+                deleted : true
+              });              
+            } 
+          }
+        }) 
+      }
+    }
     render() {
         let status = '';        
         if(this.state.done === true) {
@@ -77,24 +102,29 @@ class Task extends React.Component {
             <button className="btn btn-sm btn-warning" style={styles.editFormSave} onClick={evt=> this.saveChanges()}>Save</button>
           </div>;
         }
-        return (
-        <div className="row" style={styles.task}>
-            <div className="col-md-7">
-                <span>{this.state.name}</span> <br/>
-                {edit}
-            </div>
-            <div className="col-md-1">
-                {status}       
-            </div> 
-            <div className="col-md-2">
-                {action}                
-            </div> 
-            <div className="col-md-2">
-                <button className="btn btn-sm btn-primary" onClick={evt=>{this.changeEditVisibility(true)}}>Edit</button>
-                <button className="btn btn-sm btn-danger"  style={styles.removeButton}>Remove</button>
-            </div>                   
-        </div>
-        );            
+        if(this.state.deleted === false) {
+          return (
+          <div className="row" style={styles.task}>
+              <div className="col-md-7">
+                  <span>{this.state.name}</span> <br/>
+                  {edit}
+              </div>
+              <div className="col-md-1">
+                  {status}       
+              </div> 
+              <div className="col-md-2">
+                  {action}                
+              </div> 
+              <div className="col-md-2">
+                  <button className="btn btn-sm btn-primary" onClick={evt=>{this.changeEditVisibility(true)}}>Edit</button>
+                  <button className="btn btn-sm btn-danger"  style={styles.removeButton} onClick={evt=>{this.deleteTask()}}>Remove</button>
+              </div>                   
+          </div>
+          );            
+        }
+        else {
+          return (<div></div>);
+        }
     };
 }
 

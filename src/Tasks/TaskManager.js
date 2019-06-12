@@ -21,13 +21,13 @@ class TaskManager extends React.Component {
                 tasks: responseData                
             });            
         })
-    }
+    }   
     
     render() {        
         let tasks = '';
         if(this.state.tasks !=null) {
             tasks = this.state.tasks.map( (value,index) => {                
-                return <Task key={index} id={value.id} name={value.name} done={value.done==="1"}/>;
+                return <Task key={index} deleteTask={this.deleteTask} id={value.id} name={value.name} done={value.done==="1"}/>;
             });
         }
         return (
